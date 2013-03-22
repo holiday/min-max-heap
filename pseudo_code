@@ -1,0 +1,76 @@
+RULES of MIN-MAX Heaps
+----------------
+-- MAX level must be GREATER than parent
+-- MIN level must be LESS than parent
+
+
+INSERT(A, k):
+	#find an available position
+	i = FIND_POS()
+	#insert k into that node
+	A[i] = k
+
+	IF at MIN level:
+		#A[i] should not be GREATER than the parent
+		IF A[i] has parent AND A[i] > parent:
+			SWAP(A[i], A[parent(i)])
+			BUBBLE_UP_MAX(parent(i))
+		ELSE:
+			BUBBLE_UP_MIN(i)
+
+	ELSE:
+		#A[i] should not be LESS than the parent
+		IF A[i] has parent AND A[i] < parent: 
+			#we are on a max level therefore we should be GREATER than parent
+			SWAP(A[i], A[parent(i)])
+			BUBBLE_UP_MIN(parent(i))
+		ELSE:
+			BUBBLE_UP_MAX(i)
+
+
+BUBBLE_UP_MIN(i):
+	IF A[i] has grandparent:
+		IF A[i] < A[grandparent(i)]:
+			SWAP(A[i], A[grandparent(i)])
+			BUBBLE_UP_MIN(grandparent(i))
+
+BUBBLE_UP_MAX(i):
+	IF A[i] has grandparent:
+		IF A[i] > A[grandparent(i)]:
+			SWAP(A[i], A[grandparent(i)])
+			BUBBLE_UP_MAX(grandparent(i))
+
+TRICKLE_DOWN_MIN(i):
+	
+	IF A[i] has children:
+		m = SMALLEST_CHILD(A[i])
+
+		IF A[m] is a grandchild of A[i]:
+			IF A[m] < A[i]:
+				SWAP(A[m], A[i])
+				IF A[m] > A[parent(m)]:
+					swap(A[m], A[parent(m)])
+				TRICKLE_DOWN_MIN(m)
+		ELSE IF A[m] is a child of A[i]:
+			IF A[m] < A[i]:
+				SWAP(A[m], A[i])
+
+TRICKLE_DOWN_MAX(i):
+
+	IF A[i] has children:
+		m = SMALLEST_CHILD(A[i])
+
+		IF A[m] is a grandchild of A[i]:
+			IF A[m] > A[i]:
+				SWAP(A[m], A[i])
+				IF A[m] < A[parent(m)]:
+					swap(A[m], A[parent(m)])
+				TRICKLE_DOWN_MAX(m)
+		ELSE IF A[m] is a child of A[i]:
+			IF A[m] > A[i]:
+				SWAP(A[m], A[i])
+
+
+
+
+
